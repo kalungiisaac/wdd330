@@ -157,11 +157,17 @@ function setupHamburgerMenu() {
         nav.classList.toggle('open');
     });
 
-    // Close when a nav link is clicked
+    // Close menu when a nav link is clicked, then navigate
     nav.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const href = link.getAttribute('href');
             btn.classList.remove('active');
             nav.classList.remove('open');
+            // Small delay so the user sees the menu close, then navigate
+            setTimeout(() => {
+                window.location.href = href;
+            }, 200);
         });
     });
 

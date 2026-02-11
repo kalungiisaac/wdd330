@@ -68,7 +68,7 @@
   }
 
   .main-nav {
-    display: none;
+    display: none !important;
     position: absolute;
     top: calc(100% + 6px);
     right: 0.75rem;
@@ -84,7 +84,7 @@
   }
 
   .main-nav.open {
-    display: flex;
+    display: flex !important;
   }
 
   .main-nav .nav-link {
