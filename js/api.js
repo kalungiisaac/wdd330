@@ -3,7 +3,7 @@
 const API_KEY = 'd2663c76d7194a21821130c805530d61';
 const BASE_URL = 'https://api.rawg.io/api';
 
-// IGDB proxy — detect environment safely
+// IGDB proxy  detect environment safely
 const isDev = typeof import.meta !== 'undefined' && import.meta.env?.DEV;
 const PROXY_URL = isDev ? 'http://localhost:3001/igdb' : '/igdb';
 

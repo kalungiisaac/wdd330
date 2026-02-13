@@ -1,8 +1,8 @@
-// loader.js — Loading screen with pure CSS animations (no external deps)
+// loader.js Loading screen with pure CSS animations (no external deps)
 // Animations are handled entirely by CSS keyframes in styles.css.
 // This script only dismisses the overlay once the page is ready.
 
-const MIN_DISPLAY = 1800; // ms — let the animation play before hiding
+const MIN_DISPLAY = 1800; // ms  let the animation play before hiding
 const start = performance.now?.() ?? Date.now();
 
 window.addEventListener('load', () => {

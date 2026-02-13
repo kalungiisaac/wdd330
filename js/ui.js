@@ -1,6 +1,6 @@
 // ui.js
 
-// Render games grid (standard view — with buttons)
+// Render games grid (standard view  with buttons)
 export function renderGames(games, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;

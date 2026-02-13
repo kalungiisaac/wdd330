@@ -90,15 +90,87 @@ CLASS Api:
         END IF
         RETURN combined game details object
     
-    METHOD getGameTrailer(gameName):
+    METHOD getGameTrailer(gameId, gameName):
         TRY:
-            SEARCH YouTube for "gameName trailer"
-            IF found:
-                RETURN YouTube embed link
-            ELSE:
-                RETURN fallback search URL
+            // TIER 1: Try RAWG's native movies/trailers endpoint
+            movieUrl = BASE_URL + '/games/{gameId}/movies?key=' + API_KEY
+            movieData = fetchWithRateLimit(movieUrl)
+            
+            IF movieData.results is not empty:
+                trailer = movieData.results[0]
+                videoUrl = trailer.data.max OR trailer.data['480'] OR null
+                
+                IF videoUrl exists:
+                    RETURN {
+                        source: 'rawg',
+                        id: trailer.id,
+                        name: trailer.name,
+                        preview: trailer.preview,
+                        videoUrl: videoUrl  // Direct MP4 for native player
+                    }
+            
+            // TIER 2: Search YouTube via free Piped API (no API key needed)
+            FOR each pipedInstance in [pipedapi.kavin.rocks, pipedapi.adminforge.de, api.piped.projectsegfault.com]:
+                TRY:
+                    searchUrl = pipedInstance + '/search?q={gameName}+official+game+trailer&filter=videos'
+                    response = fetch(searchUrl, timeout=5000)
+                    
+                    IF response.ok:
+                        data = parseJSON(response)
+                        IF data.items length > 0:
+                            firstItem = data.items[0]
+                            videoId = extract from firstItem.url using regex /[?&]v=([^&]+)/
+                            
+                            IF videoId extracted:
+                                RETURN {
+                                    source: 'youtube',
+                                    videoId: videoId,
+                                    embedUrl: 'https://www.youtube.com/embed/{videoId}?autoplay=1&rel=0'
+                                }
+                
+                CATCH timeout or error:
+                    CONTINUE to next Piped instance
+            
+            // TIER 3: Fallback - return search URL only (no embed)
+            RETURN {
+                source: 'fallback',
+                searchUrl: 'https://www.youtube.com/results?search_query={gameName}+official+game+trailer'
+            }
+        
         CATCH error:
-            RETURN error fallback
+            LOG error to console
+            RETURN {
+                source: 'fallback',
+                searchUrl: 'https://www.youtube.com/results?search_query={gameName}+trailer'
+            }
+    
+    METHOD searchYouTubeVideoId(query):
+        pipedInstances = ['https://pipedapi.kavin.rocks', 'https://pipedapi.adminforge.de', ...]
+        
+        FOR each instance:
+            TRY:
+                url = instance + '/search?q=' + encodeQuery(query) + '&filter=videos'
+                response = fetch(url, timeout=5000)
+                
+                IF not response.ok:
+                    CONTINUE to next instance
+                
+                data = parseJSON(response)
+                IF data.items is empty:
+                    CONTINUE
+                
+                firstVideo = data.items[0]
+                // items[].url format is "/watch?v=VIDEO_ID"
+                match = extract videoId from firstVideo.url
+                
+                IF match found:
+                    RETURN videoId
+            
+            CATCH error:
+                LOG warning for failed instance
+                CONTINUE to next
+        
+        RETURN null // No YouTube video found
     
     METHOD filterGames(filterParams):
         BUILD_URL with filter parameters:
@@ -116,25 +188,59 @@ CLASS Api:
 **Purpose**: Initialize the application and handle page-specific logic
 
 ```pseudocode
-FUNCTION openTrailer(gameName):
+FUNCTION openTrailer(gameId, gameName):
     GET trailer-modal element
     SET modal to active/visible
-    SHOW loading state
+    SHOW loading state with spinner
+    DISPLAY text: "🎬 Searching for trailer..."
     
     TRY:
-        trailer = api.getGameTrailer(gameName)
-        IF trailer source is YouTube:
-            EMBED YouTube iframe
-        ELSE IF trailer source is RAWG:
-            EMBED video player
-        ELSE:
-            SHOW YouTube search fallback link
+        trailer = api.getGameTrailer(gameId, gameName)
+        
+        IF trailer.source === 'rawg' AND trailer.videoUrl exists:
+            // RAWG has direct MP4 video
+            CREATE native video player with controls
+            SET autoplay=true, playsinline=true
+            EMBED MP4 source from trailer.videoUrl
+        
+        ELSE IF trailer.source === 'youtube' AND trailer.videoId exists:
+            // Piped API found YouTube video ID
+            CREATE iframe embed
+            SET src = "https://www.youtube.com/embed/{videoId}?autoplay=1&rel=0"
+            ALLOW autoplay and fullscreen
+        
+        ELSE IF trailer.source === 'fallback':
+            // No embeddable trailer found
+            SHOW fallback UI in modal:
+                - Message: "😕 Could not find an embeddable trailer"
+                - Azure link button: "▶ Search on YouTube"
+            DO NOT auto-open YouTube (user clicks link if they want it)
+    
     CATCH error:
-        SHOW error message + search fallback
+        SHOW error fallback in modal:
+            - Message: "😕 Something went wrong loading the trailer"
+            - Search link button
 
 FUNCTION closeTrailer():
-    HIDE trailer-modal
-    CLEAR container content
+    REMOVE 'active' class from modal
+    CLEAR all container HTML (stops video/iframe playback)
+
+FUNCTION setupHamburgerMenu():
+    WHEN hamburger button clicked:
+        TOGGLE 'active' class on hamburger button
+        TOGGLE 'open' class on nav menu
+    
+    FOR each nav link in mobile menu:
+        EVENT LISTENER on click:
+            PREVENT immediate page navigation
+            REMOVE 'active' class from hamburger
+            REMOVE 'open' class from nav menu
+            WAIT 200ms (let close animation play)
+            NAVIGATE to link.href
+    
+    EVENT LISTENER on document click (anywhere):
+        IF clicked target is NOT hamburger button AND NOT nav menu:
+            CLOSE the menu (remove 'active' and 'open')
 
 FUNCTION setActiveNavLink():
     GET current page URL
@@ -147,12 +253,17 @@ FUNCTION setActiveNavLink():
     END FOR
 
 EVENT LISTENER: DOMContentLoaded:
-    LOAD header partial HTML
+    LOAD header partial HTML (includes hamburger for mobile)
     LOAD footer partial HTML
     CREATE Wishlist instance
     INITIALIZE wishlist
     SET active navigation link
-    SETUP trailer modal close handlers (click, escape key)
+    SETUP hamburger menu for mobile navigation
+    
+    SETUP trailer modal close handlers:
+        - ON close button clicked: CALL closeTrailer()
+        - ON backdrop clicked (outside modal): CALL closeTrailer()
+        - ON Escape key pressed: CALL closeTrailer()
     
     IF current page is index-page:
         CALL initBrowsePage()

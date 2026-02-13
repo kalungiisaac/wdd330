@@ -30,6 +30,7 @@ body {
 img {
   max-width: 100%;
   height: auto;
+  display: block;
 }
 
 .container {
@@ -88,8 +89,11 @@ img {
 }
 
 .logo-icon img {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 255, 128, 0.5), 0 0 30px rgba(0, 255, 128, 0.2);
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1158,8 +1162,11 @@ main {
 
 /* Footer logo icon sizing */
 .footer-logo .logo-icon img {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  object-fit: cover;
   border-radius: 8px;
   animation: logoFloat 3s ease-in-out infinite, logoGlow 4s ease-in-out infinite;
 }

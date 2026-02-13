@@ -39,15 +39,25 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* ==========================================
-   SMALL SCREEN — max-width 767px (Wireframe)
-   ========================================== */
+
+   /*SMALL SCREEN  max-width 767px (Wireframe)
+   /*========================================== */
 
 @media (max-width: 767px) {
 
-  /* ---- Header ---- */
   .header-container {
     padding: 0.4rem 0.75rem;
+  }
+
+  .footer {
+    display: block !important;
+    width: 100%;
+    min-height: 1px;
+  }
+  #header-placeholder, #footer-placeholder {
+    display: block !important;
+    width: 100%;
+    min-height: 1px;
   }
 
   .logo-text {
@@ -370,7 +380,7 @@
 }
 
 /* ==========================================
-   TABLET — 768px to 1023px
+   TABLET 768px to 1023px
    ========================================== */
 
 @media (min-width: 768px) and (max-width: 1023px) {
