@@ -25,7 +25,7 @@ export class header{
                 <input type="text" id="search-input" placeholder="Search for games...">
                 <button id="search-btn" aria-label="Search">🔍</button>
             </div>
-            <div class="header-icons">
+            <div class="header-icons register">
                 <a href="register.html" class="icon-link user-account-link" title="Sign In / User Account">
                     <svg class="user-account-icon" width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                         <!-- Outer circle -->
