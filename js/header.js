@@ -12,7 +12,7 @@ export class header{
          <div class="container header-container">
         <a href="index.html" class="logo">
             <span class="logo-icon"><img src="https://i.pinimg.com/736x/bb/9a/d2/bb9ad2a97b7d12fb381c6f61b91d5e11.jpg" alt="KALI Game Store Logo" width="40" height="40" decoding="async" fetchpriority="low" loading="lazy"></span>
-            <span class="logo-text">KALI GAME STORE</span>
+            <span class="logo-text">KALI GAMEs</span>
         </a>
         <nav class="main-nav" id="main-nav">
             <a href="index.html" class="nav-link">Browse</a>
@@ -25,7 +25,8 @@ export class header{
                 <input type="text" id="search-input" placeholder="Search for games...">
                 <button id="search-btn" aria-label="Search">🔍</button>
             </div>
-            <div class="header-icons register">
+            <div class="header-icons">
+                <button id="theme-toggle-btn" class="theme-toggle-btn" title="Switch to Light Mode">☀️</button>
                 <a href="register.html" class="icon-link user-account-link" title="Sign In / User Account">
                     <svg class="user-account-icon" width="32" height="32" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                         <!-- Outer circle -->

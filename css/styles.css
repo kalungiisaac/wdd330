@@ -4,12 +4,29 @@
   --secondary: #4a4a6a;
   --accent: #00000B;
   --background: #f8f9fa;
-  --text: #333333;
+  --text: #f0f0f0;
   --border: #dee2e6;
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   --transition: all 0.1s linear;
   --mobile: 768px;
   --tablet: 1024px;
+}
+
+/* Light Mode Theme */
+:root[data-theme="light"],
+html[data-theme="light"] {
+  --primary: #ffffff;
+  --secondary: #f5f5f5;
+  --accent: #e8e8ff;
+  --background: #f0f0f0;
+  --text: #000000;
+  --border: #cccccc;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+body[data-theme="light"] {
+  background: linear-gradient(135deg, #f5f5f5 0%, #efefef 50%, #e8e8ff 100%);
+  color: #1a1a1a;
 }
 
 * {
@@ -25,6 +42,8 @@ body {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   background-attachment: fixed;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 img {
@@ -35,7 +54,7 @@ img {
 
 .container {
   width: 100%;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -187,7 +206,7 @@ img {
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 600;
   padding: 0.5rem 0.6rem;
   transition: var(--transition);
@@ -282,6 +301,37 @@ img {
   display: flex;
   gap: 1rem;
   align-items: center;
+}
+
+.theme-toggle-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.5rem 0.7rem;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(233, 69, 96, 0.1);
+  border-color: rgba(233, 69, 96, 0.5);
+  color: #e94560;
+}
+
+body[data-theme="light"] .theme-toggle-btn {
+  border-color: rgba(0, 0, 0, 0.2);
+  color: #1a1a1a;
+}
+
+body[data-theme="light"] .theme-toggle-btn:hover {
+  background: rgba(100, 100, 200, 0.1);
+  border-color: rgba(100, 100, 200, 0.5);
+  color: #6464c8;
 }
 
 .icon-link {
@@ -834,6 +884,7 @@ img {
 /* Main Content Layout */
 main {
   padding: 1rem 0;
+  flex: 1;
 }
 
 /* Filter Panel / Sidebar */
@@ -963,14 +1014,14 @@ main {
 
 .games-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   contain: layout;
 }
 
 .deals-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
 }
 
@@ -1068,6 +1119,17 @@ main {
   background: white;
   border: 1px solid var(--border);
   border-radius: 4px;
+}
+
+#wishlist-container .empty-state {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 2rem;
 }
 
 /* Game Detail Page - Wireframe Layout */
@@ -2754,4 +2816,494 @@ p {
 .user-account-link:hover {
   color: #e94560;
   filter: drop-shadow(0 0 8px rgba(233, 69, 96, 0.6));
+}
+
+/* ==========================================
+   LIGHT MODE STYLES
+   ========================================== */
+
+body[data-theme="light"] {
+  background: linear-gradient(135deg, #f5f5f5 0%, #efefef 50%, #e8e8ff 100%);
+  color: var(--text);
+}
+
+body[data-theme="light"] .header {
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 40%, #dcdcf0 100%);
+  color: var(--text);
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body[data-theme="light"] .logo {
+  color: var(--text);
+  text-shadow: none;
+}
+
+body[data-theme="light"] .logo-text {
+  color: var(--text);
+  text-shadow: none;
+}
+
+body[data-theme="light"] .icon-link {
+  color: var(--text);
+  text-shadow: none;
+}
+
+body[data-theme="light"] .icon-link:hover {
+  color: #6464c8;
+}
+
+body[data-theme="light"] .main-nav .nav-link {
+  color: #000000 !important;
+  font-weight: 700;
+}
+
+body[data-theme="light"] .main-nav .nav-link:hover {
+  color: #6464c8;
+  font-weight: 700;
+}
+
+body[data-theme="light"] #search-input {
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid #cccccc;
+}
+
+body[data-theme="light"] #search-btn {
+  color: var(--text);
+}
+
+body[data-theme="light"] .game-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  color: var(--text);
+}
+
+body[data-theme="light"] .game-info,
+body[data-theme="light"] .card-content {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .game-card .game-info,
+body[data-theme="light"] .game-card .card-content {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .game-title,
+body[data-theme="light"] .card-title,
+body[data-theme="light"] .game-card .game-title,
+body[data-theme="light"] .game-card .card-title,
+body[data-theme="light"] .game-card .game-info .game-title,
+body[data-theme="light"] .game-card .card-content .card-title {
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .game-meta,
+body[data-theme="light"] .card-platform,
+body[data-theme="light"] .card-meta,
+body[data-theme="light"] .game-card .game-info .game-meta,
+body[data-theme="light"] .game-card .card-content .card-platform,
+body[data-theme="light"] .game-card .card-content .card-meta {
+  color: #555555 !important;
+}
+
+body[data-theme="light"] .platform,
+body[data-theme="light"] .game-card .game-info .platform,
+body[data-theme="light"] .game-card .card-content .platform {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .free-game-card {
+  color: var(--text);
+}
+
+body[data-theme="light"] .free-game-card .game-desc {
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .free-badge {
+  color: white;
+}
+
+body[data-theme="light"] .free-game-card .btn {
+  color: var(--text);
+}
+
+body[data-theme="light"] .wireframe-card .card-content {
+  background: #ffffff;
+  color: var(--text);
+}
+
+body[data-theme="light"] .wireframe-card .card-title {
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .wireframe-card .card-platform {
+  color: var(--text) !important;
+  text-shadow: none;
+}
+
+body[data-theme="light"] .wireframe-card .card-meta {
+  color: var(--text) !important;
+  text-shadow: none;
+}
+
+body[data-theme="light"] * {
+  color: var(--text) !important;
+}
+
+/* Exception: featured content keeps white text */
+body[data-theme="light"] .featured-game *,
+body[data-theme="light"] .featured-content *,
+body[data-theme="light"] .featured-overlay * {
+  color: white !important;
+}
+
+/* For dark background elements in light mode, use white text */
+body[data-theme="light"] [style*="background: #000"],
+body[data-theme="light"] [style*="background-color: #000"] {
+  color: white !important;
+}
+
+/* Target common dark background classes and elements */
+body[data-theme="light"] .btn-dark,
+body[data-theme="light"] .dark-bg,
+body[data-theme="light"] .black-bg,
+body[data-theme="light"] button[style*="#000"],
+body[data-theme="light"] div[style*="#000"],
+body[data-theme="light"] span[style*="#000"] {
+  color: white !important;
+}
+
+/* Exceptions for buttons and badges that should keep their specific colors */
+body[data-theme="light"] .free-badge {
+  color: white !important;
+}
+
+body[data-theme="light"] .wishlist-count-badge {
+  color: white !important;
+}
+
+body[data-theme="light"] a {
+  color: #6464c8 !important;
+}
+
+body[data-theme="light"] a:hover {
+  color: #3333a0 !important;
+}
+
+body[data-theme="light"] .featured-game,
+body[data-theme="light"] .banner-section {
+  background: rgba(200, 200, 220, 0.3);
+}
+
+body[data-theme="light"] .featured-overlay {
+  background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%) !important;
+}
+
+body[data-theme="light"] .featured-game h2,
+body[data-theme="light"] .banner-section h2 {
+  color: white !important;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+}
+
+body[data-theme="light"] .featured-game p,
+body[data-theme="light"] .banner-section p {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+body[data-theme="light"] .featured-content {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+body[data-theme="light"] .featured-content h2 {
+  color: white !important;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+}
+
+body[data-theme="light"] .featured-content p {
+  color: white !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+body[data-theme="light"] .footer {
+  background: #e8e8e8;
+  color: var(--text);
+  border-top: 1px solid #cccccc;
+}
+
+body[data-theme="light"] #wishlist-container .empty-state {
+  background: transparent;
+  color: var(--text);
+}
+
+body[data-theme="light"] #wishlist-container .empty-state h3,
+body[data-theme="light"] #wishlist-container .empty-state p {
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] #wishlist-container .empty-state .btn {
+  background: #333333 !important;
+  color: white !important;
+}
+
+body[data-theme="light"] .footer a {
+  color: #6464c8;
+}
+
+body[data-theme="light"] .footer a:hover {
+  color: #3333a0;
+}
+
+body[data-theme="light"] .filter-panel {
+  background: #f5f5f5;
+  border: 1px solid #cccccc;
+}
+
+body[data-theme="light"] .filter-label {
+  color: var(--text);
+}
+
+body[data-theme="light"] .filter-option {
+  color: var(--text);
+}
+
+body[data-theme="light"] input[type="text"],
+body[data-theme="light"] input[type="number"],
+body[data-theme="light"] select {
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid #cccccc;
+}
+
+body[data-theme="light"] button {
+  color: var(--text);
+}
+
+body[data-theme="light"] .user-account-icon {
+  color: var(--text);
+}
+
+body[data-theme="light"] .user-account-link:hover .user-account-icon {
+  color: #6464c8;
+}
+
+body[data-theme="light"] .hamburger {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: #e8e8e8;
+}
+
+body[data-theme="light"] .hamburger span {
+  background: var(--text);
+}
+
+body[data-theme="light"] .main-nav {
+  background: #f5f5f5;
+  border: 1px solid #cccccc;
+}
+
+body[data-theme="light"] .section-title,
+body[data-theme="light"] h1,
+body[data-theme="light"] h2,
+body[data-theme="light"] h3,
+body[data-theme="light"] h4,
+body[data-theme="light"] h5,
+body[data-theme="light"] h6 {
+  color: var(--text);
+}
+
+body[data-theme="light"] .section-title {
+  border-bottom: 2px solid #6464c8;
+}
+
+body[data-theme="light"] .search-container {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark background elements should have white text in light mode */
+/* Only for download/play/featured buttons with dark backgrounds */
+body[data-theme="light"] .featured-buttons .btn,
+body[data-theme="light"] .download-btn,
+body[data-theme="light"] .buy-btn,
+body[data-theme="light"] .play-btn {
+  color: white !important;
+  background: #333333 !important;
+}
+
+/* Modal and overlay elements */
+body[data-theme="light"] .modal-content,
+body[data-theme="light"] .modal-body {
+  color: white !important;
+  background: #333333 !important;
+}
+
+/* Elements with inline dark backgrounds */
+body[data-theme="light"] [style*="background: #0"],
+body[data-theme="light"] [style*="background-color: #0"] {
+  color: white !important;
+}
+/* Search input and placeholder in light mode */
+body[data-theme="light"] #search-input {
+  color: var(--text) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+body[data-theme="light"] #search-input::placeholder {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+body[data-theme="light"] .user-account-link:hover .user-account-icon {
+  color: #ff4d7d !important;
+  filter: drop-shadow(0 0 8px rgba(233, 69, 96, 0.5)) !important;
+}
+
+body[data-theme="light"] .social-icons a,
+body[data-theme="light"] .social-link {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(233, 69, 96, 0.3) !important;
+  text-shadow: none !important;
+  color: #333333 !important;
+}
+
+body[data-theme="light"] .social-icons a:hover,
+body[data-theme="light"] .social-link:hover {
+  background: rgba(233, 69, 96, 0.1) !important;
+  color: #e94560 !important;
+}
+
+body[data-theme="light"] .social-icons a svg,
+body[data-theme="light"] .social-link svg {
+  fill: currentColor !important;
+}
+
+/* Filter panel and filter group text in light mode */
+body[data-theme="light"] .filter-panel {
+  color: var(--text);
+}
+
+body[data-theme="light"] .filter-panel h3,
+body[data-theme="light"] .filter-group h4,
+body[data-theme="light"] .filter-group label {
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .filter-label,
+body[data-theme="light"] .filter-option {
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] .filter-group select {
+  color: var(--text) !important;
+  background: #ffffff !important;
+  border: 1px solid #cccccc !important;
+}
+
+body[data-theme="light"] .filter-group label input {
+  border: 1px solid #cccccc !important;
+  background: #ffffff !important;
+  color: var(--text) !important;
+}
+
+/* Keep apply-filters and clear-filters buttons with their original colors */
+body[data-theme="light"] #apply-filters {
+  background: var(--primary) !important;
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+body[data-theme="light"] #clear-filters {
+  background: white !important;
+  color: var(--text) !important;
+}
+
+body[data-theme="light"] #clear-filters:hover {
+  background: #f0f0f0 !important;
+}
+
+/* Pagination buttons - white text on dark background in light mode */
+body[data-theme="light"] .page-btn {
+  background: #333333 !important;
+  color: white !important;
+  border: 2px solid #333333 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+body[data-theme="light"] .page-btn:hover:not(:disabled) {
+  background: #555555 !important;
+  border-color: #555555 !important;
+  color: white !important;
+}
+
+body[data-theme="light"] .page-num {
+  background: #333333 !important;
+  color: white !important;
+  border: 1px solid #333333 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+body[data-theme="light"] .page-num:hover {
+  background: #555555 !important;
+  border-color: #555555 !important;
+  color: white !important;
+}
+
+body[data-theme="light"] .page-num.active {
+  background: #555555 !important;
+  border-color: #555555 !important;
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+body[data-theme="light"] .page-ellipsis {
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+/* SVG icons - make fill visible in light mode */
+body[data-theme="light"] .social-icons a svg,
+body[data-theme="light"] .social-link svg {
+  fill: currentColor !important;
+}
+
+body[data-theme="light"] svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+body[data-theme="light"] .user-account-icon {
+  color: #e94560 !important;
+  stroke: #e94560 !important;
+  fill: none !important;
+}
+
+/* Email and form placeholders in light mode */
+body[data-theme="light"] .newsletter input::placeholder {
+  color: #000000 !important;
+}
+
+body[data-theme="light"] .form-group input::placeholder {
+  color: #000000 !important;
+}
+
+body[data-theme="light"] input::placeholder,
+body[data-theme="light"] textarea::placeholder {
+  color: #000000 !important;
+}
+
+body[data-theme="light"] .newsletter input {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--text) !important;
+  border: 1px solid #cccccc !important;
+}
+
+body[data-theme="light"] .form-group input {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--text) !important;
+  border: 1px solid #cccccc !important;
 }

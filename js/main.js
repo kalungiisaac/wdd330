@@ -9,6 +9,7 @@ import { recommendationEngine } from './recommendations.js';
 import {footer} from './footer.js'
 import {header} from './header.js'
 import {register} from './register.js'
+import {ThemeToggle} from './theme.js'
 
 // Global trailer function — plays in modal, never redirects
 window.openTrailer = async function(gameId, gameName) {
@@ -68,6 +69,9 @@ window.closeTrailer = function() {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize theme toggle
+    new ThemeToggle();
+    
     // Initialize header and footer
     try {
         new header();
@@ -451,6 +455,9 @@ async function initBrowsePage() {
     
     applyFiltersBtn?.addEventListener('click', applyFilters);
     clearFiltersBtn?.addEventListener('click', clearFilters);
+    
+    // Apply URL parameters (search, filters, etc.) if present
+    await applyUrlFilters();
 }
 
 // Apply URL parameters for "See All" links and deep links
@@ -810,6 +817,16 @@ async function handleSearch() {
     const query = searchInput.value.trim();
     if (!query) return;
     
+    // Check if we're on the index/home page
+    const isHomePage = document.body.id === 'index-page';
+    
+    if (!isHomePage) {
+        // If not on home page, navigate to home page with search query
+        window.location.href = `index.html?search=${encodeURIComponent(query)}`;
+        return;
+    }
+    
+    // Perform search on home page
     try {
         const data = await api.searchGames(query);
         renderGames(data.results, 'games-container');
