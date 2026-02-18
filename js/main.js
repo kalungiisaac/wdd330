@@ -9,7 +9,6 @@ import { recommendationEngine } from './recommendations.js';
 import {footer} from './footer.js'
 import {header} from './header.js'
 import {register} from './register.js'
-import {ThemeToggle} from './theme.js'
 
 // Global trailer function — plays in modal, never redirects
 window.openTrailer = async function(gameId, gameName) {
@@ -69,9 +68,6 @@ window.closeTrailer = function() {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize theme toggle
-    new ThemeToggle();
-    
     // Initialize header and footer
     try {
         new header();
@@ -249,12 +245,32 @@ async function initBrowsePage() {
     // ── FEATURED CAROUSEL ──
     try {
         const featuredData = await api.fetchGames({ 
-            page_size: 15, 
+            page_size: 20, 
             ordering: '-metacritic',
-            metacritic: '85,100',
+            metacritic: '80,100',
             platforms: platformIds
         });
-        const featuredGames = (featuredData.results || []).filter(g => g.background_image);
+        let featuredGames = (featuredData.results || []).filter(g => g.background_image);
+        
+        // Filter for games with trailers
+        let gamesWithTrailers = [];
+        for (const game of featuredGames) {
+            try {
+                const trailer = await api.getGameTrailer(game.id, game.name);
+                if (trailer) {
+                    gamesWithTrailers.push(game);
+                    if (gamesWithTrailers.length >= 10) break; // Get first 10 with trailers
+                }
+            } catch (e) {
+                // Continue if trailer fetch fails
+            }
+        }
+        
+        // If we found games with trailers, use them; otherwise fall back to all featured games
+        if (gamesWithTrailers.length > 0) {
+            featuredGames = gamesWithTrailers;
+        }
+        
         featuredGames.sort((a, b) => (b.metacritic || 0) - (a.metacritic || 0));
         
         if (featuredGames.length > 0) {

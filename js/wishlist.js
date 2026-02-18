@@ -18,6 +18,7 @@ class Wishlist {
             this.wishlist.push(game);
             localStorage.setItem(this.key, JSON.stringify(this.wishlist));
             this.updateCount();
+            this.showNotification(`✅ "${game.name}" added to favorites!`);
             return true;
         }
         return false;
@@ -28,6 +29,34 @@ class Wishlist {
         localStorage.setItem(this.key, JSON.stringify(this.wishlist));
         this.updateCount();
         return true;
+    }
+
+    showNotification(message) {
+        // Remove existing notification if any
+        const existing = document.getElementById('notification-toast');
+        if (existing) {
+            existing.remove();
+        }
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.id = 'notification-toast';
+        notification.className = 'notification-toast';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        // Trigger animation
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 3000);
     }
 
     toggleWishlist(game) {
